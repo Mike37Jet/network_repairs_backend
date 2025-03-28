@@ -1,5 +1,5 @@
 
-CREATE TABLE repair (
+CREATE TABLE repairs (
     id SERIAL PRIMARY KEY,
     repair_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     description VARCHAR(255),
@@ -20,7 +20,7 @@ CREATE TABLE repair_images_before (
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
     deleted_at TIMESTAMP,
-    CONSTRAINT fk_repair_before FOREIGN KEY (repair_id) REFERENCES repair (id)
+    CONSTRAINT fk_repair_before FOREIGN KEY (repair_id) REFERENCES repairs (id)
 );
 
 CREATE TABLE repair_images_after (
@@ -33,5 +33,5 @@ CREATE TABLE repair_images_after (
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
     deleted_at TIMESTAMP,
-    CONSTRAINT fk_repair_after FOREIGN KEY (repair_id) REFERENCES repair (id)
+    CONSTRAINT fk_repair_after FOREIGN KEY (repair_id) REFERENCES repairs (id)
 );
