@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:17.3
+    restart: unless-stopped
+    container_name: container-postgres-network-repair
+    environment:
+      - POSTGRES_USER=tecnicosquito
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=network-repair
+    ports:
+      - "5434:5432"
+    volumes:
+      - "C:/docker/volumes/postgres17.3/network-repair:/var/lib/postgresql/data"
