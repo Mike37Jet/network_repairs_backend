@@ -8,8 +8,6 @@ import java.time.LocalDate;
 
 @Value
 public class RepairDTO implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
 
     Long id;
     LocalDate repairDate;

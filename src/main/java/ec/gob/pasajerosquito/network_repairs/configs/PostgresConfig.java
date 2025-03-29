@@ -1,6 +1,6 @@
-package ec.gob.pasajerosquito.maintenance_tracker.configs;
+package ec.gob.pasajerosquito.network_repairs.configs;
 
-import ec.gob.pasajerosquito.maintenance_tracker.utils.MapUtils;
+import ec.gob.pasajerosquito.network_repairs.utils.MapUtils;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -19,7 +19,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = {"ec.gob.pasajerosquito.maintenance_tracker.repositories.postgres"},
+        basePackages = {"ec.gob.pasajerosquito.network_repairs.repositories"},
         entityManagerFactoryRef = "postgresEntityManagerFactory",
         transactionManagerRef = "postgresTransactionManager"
 )

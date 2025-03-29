@@ -1,4 +1,4 @@
-package ec.gob.pasajerosquito.maintenance_tracker.configs;
+package ec.gob.pasajerosquito.network_repairs.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
