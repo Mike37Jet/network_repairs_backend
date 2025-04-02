@@ -13,13 +13,17 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@Table(name = "repairs")
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Repair extends BaseEntity implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = -5665468053129322675L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "repair_date")

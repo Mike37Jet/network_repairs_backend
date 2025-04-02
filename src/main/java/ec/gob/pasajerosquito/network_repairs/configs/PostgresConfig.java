@@ -45,7 +45,7 @@ public class PostgresConfig {
             @Qualifier("postgresHibernateProperties") Properties hibernateProperties) {
         return builder
                 .dataSource(postgresDataSource)
-                .packages("ec.gob.pasajerosquito.maintenance_tracker.entities.postgres")
+                .packages("ec.gob.pasajerosquito.network_repairs.entities.postgres")
                 .persistenceUnit("postgres")
                 .properties(MapUtils.getMapFromProperties(hibernateProperties))
                 .build();

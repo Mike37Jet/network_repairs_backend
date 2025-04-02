@@ -21,15 +21,19 @@ public class BaseEntity {
     @CreatedBy
     @Column(name = "created_by", updatable = false)
     private String createdBy;
+
     @LastModifiedBy
     @Column(name = "updated_by")
     private String updatedBy;
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 }
