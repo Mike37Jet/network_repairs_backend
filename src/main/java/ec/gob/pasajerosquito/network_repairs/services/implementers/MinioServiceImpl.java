@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @Service
@@ -46,13 +48,12 @@ public class MinioServiceImpl implements MinioService {
     @Override
     public String getPreSignedObjectUrl(String objectName) {
         try {
-            // Verificar si el objeto existe
             minioClient.statObject(
                     io.minio.StatObjectArgs.builder()
                             .bucket(bucketName)
                             .object(objectName)
                             .build());
-            // Si existe, se genera la URL pre-firmada
+
             return minioClient.getPresignedObjectUrl(
                     GetPresignedObjectUrlArgs.builder()
                             .bucket(bucketName)
@@ -67,43 +68,49 @@ public class MinioServiceImpl implements MinioService {
     }
 
     @Override
-    public boolean uploadImage(MultipartFile file, String objectName) {
+    public String uploadImage(MultipartFile file, String repairId, String objectName) {
         try {
             var contentType = file.getContentType();
             if (!StringUtils.hasText(contentType) || !contentType.startsWith("image/")) {
                 log.error("Tipo de imagen inválido: {}", contentType);
-                return false;
+                return null;
             }
-            uploadFile(file, objectName, contentType);
-            return true;
+            String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            String newObjectName = String.format("repair%s/%s/%s", repairId, currentDate, objectName);
+            uploadFile(file, newObjectName, contentType);
+            
+            return newObjectName;
         } catch (Exception e) {
             log.error("Error al subir el archivo: {}", objectName, e);
-            return false;
+            return null;
         }
+    }
+
+    private void uploadFile(MultipartFile file, String newObjectName, String contentType) throws Exception {
+        minioClient.putObject(
+            PutObjectArgs.builder()
+                .bucket(bucketName)
+                .object(newObjectName)
+                .stream(file.getInputStream(), file.getSize(), -1)
+                .contentType(contentType)
+                .build()
+        );
     }
 
     @Override
     public void removeFile(String objectName) {
         try {
-            // Intentar obtener la metadata del objeto
-            var stat = minioClient.statObject(
+            minioClient.statObject(
                     io.minio.StatObjectArgs.builder()
                             .bucket(bucketName)
                             .object(objectName)
                             .build());
-            if (stat == null) {
-                // Si no se obtuvo información, asumimos que no existe y lanzamos error
-                throw new MinioException("El objeto no existe: " + objectName, null);
-            }
         } catch (Exception e) {
-            // O si ocurre error (según la excepción que retorne Minio en este caso),
-            // lanzamos error
-            log.error("El objeto '{}' no existe, no se elimina", objectName);
+            log.error("El objeto '{}' no existe: {}", objectName, e.getMessage());
             throw new MinioException("El objeto no existe: " + objectName, e);
         }
 
         try {
-            // Procede a eliminar el objeto
             minioClient.removeObject(
                     RemoveObjectArgs.builder()
                             .bucket(bucketName)
@@ -116,18 +123,5 @@ public class MinioServiceImpl implements MinioService {
         }
     }
 
-    @Override
-    public void uploadFile(MultipartFile file, String objectName, String contentType) {
-        try {
-            var inputStream = file.getInputStream();
-            minioClient.putObject(PutObjectArgs.builder()
-                    .bucket(bucketName)
-                    .object(objectName)
-                    .contentType(contentType)
-                    .stream(inputStream, inputStream.available(), -1)
-                    .build());
-        } catch (Exception e) {
-            throw new MinioException("Error al subir el archivo: " + objectName, e);
-        }
-    }
+    
 }
