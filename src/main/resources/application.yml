@@ -4,14 +4,14 @@ server:
 spring:
   application:
     name: network_repairs
-  
+
   datasource:
     postgresql-db:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: jdbc:postgresql://localhost:5434/network-repair
-      username: tecnicosquito
+      jdbc-url: jdbc:postgresql://localhost:5434/network-repairs
+      username: pasajerosquito
       password: 123456
-  
+
   jpa:
     postgres:
       hibernate:
@@ -25,7 +25,14 @@ spring:
       max-file-size: 10MB
       max-request-size: 21MB
 
+app:
+  minio:
+    url: http://localhost:9000
+    accessKey: admin
+    secretKey: 12345678
+    bucketName: network-repairs
+    region: ec
+
 logging:
   level:
     org.hibernate.orm.connections.pooling: WARN
-

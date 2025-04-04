@@ -3,12 +3,44 @@ services:
   postgres:
     image: postgres:17.3
     restart: unless-stopped
-    container_name: container-postgres-network-repair
+    container_name: container-postgres-network-repairs
     environment:
-      - POSTGRES_USER=tecnicosquito
+      - POSTGRES_USER=pasajerosquito
       - POSTGRES_PASSWORD=123456
-      - POSTGRES_DB=network-repair
+      - POSTGRES_DB=network-repairs
     ports:
       - "5434:5432"
     volumes:
-      - "C:/docker/volumes/postgres17.3/network-repair:/var/lib/postgresql/data"
+      - "C:/docker/volumes/postgres17.3/network-repairs:/var/lib/postgresql/data"
+    networks:
+      - network-repairs-grid
+
+  minio-maintenance-tracker-local:
+    container_name: container-minio-network-repairs
+    image: minio/minio:RELEASE.2024-11-07T00-52-20Z.fips
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - "C:/docker/volumes/minio-network-repairs/data:/data"
+      - "C:/docker/volumes/minio-network-repairs/minio:/minio"
+      - "C:/docker/volumes/minio-network-repairs/config:/root/.minio"
+    environment:
+      TZ: America/Guayaquil
+      LANG: en_US.UTF-8
+      MINIO_PROMETHEUS_AUTH_TYPE: "public"
+      MINIO_ROOT_USER: "admin"
+      MINIO_ROOT_PASSWORD: "12345678"
+    command: server /data --console-address ":9001"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+    networks:
+      - network-repairs-grid
+
+networks:
+  network-repairs-grid:
+    name: network-repairs-grid
+    driver: bridge

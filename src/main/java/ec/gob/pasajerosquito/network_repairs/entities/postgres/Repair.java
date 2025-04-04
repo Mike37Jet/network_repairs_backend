@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-
 @Getter
 @Setter
 @Entity
@@ -30,18 +29,30 @@ public class Repair extends BaseEntity implements Serializable {
     private LocalDate repairDate;
     private String description;
 
-    //Este metodo es una sobrescritura del metodo equals de la clase Object en Java.
-    //Se utiliza para comparar dos objetos de la clase Repair y determinar si son iguales.
+    /*
+     * Este metodo es una sobrescritura del metodo equals de la clase Object en
+     * Java.
+     * Se utiliza para comparar dos objetos Repair y determinar si son iguales.
+     * En este caso, se comparan los atributos id de ambos objetos.
+     */
     @Override
     public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
+        if (this == object)
+            return true;
+        if (object == null || getClass() != object.getClass())
+            return false;
         Repair repair = (Repair) object;
         return Objects.equals(id, repair.id);
     }
 
-    //Este metodo es una sobrescritura del metodo hashCode de la clase Object en Java.
-    //Se utiliza para generar un valor hash unico para el objeto Repair.
+    /*
+     * Este metodo es una sobrescritura del metodo hashCode de la clase Object en
+     * Java.
+     * Se utiliza para generar un valor hash para el objeto Repair.
+     * En este caso, se utiliza el atributo id para generar el valor hash.
+     * Esto es importante para el correcto funcionamiento de las colecciones que
+     * utilizan hashing, como HashMap o HashSet.
+     */
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
