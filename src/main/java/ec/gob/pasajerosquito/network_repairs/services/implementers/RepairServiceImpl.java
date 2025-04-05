@@ -23,7 +23,7 @@ public class RepairServiceImpl implements RepairService {
 
     @Override
     public List<RepairDTO> getAll() {
-        return repairMapper.toListDTO(repairRepository.findAll());
+        return repairMapper.toListDTO(repairRepository.findAllValid());
     }
 
     @Override
