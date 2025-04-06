@@ -7,7 +7,6 @@ import ec.gob.pasajerosquito.network_repairs.services.ImageAfterRepairService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @Slf4j
 @RestController

@@ -3,8 +3,6 @@ package ec.gob.pasajerosquito.network_repairs.entities.postgres;
 import ec.gob.pasajerosquito.network_repairs.entities.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
